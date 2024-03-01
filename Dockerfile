@@ -3,6 +3,7 @@ WORKDIR /app
 COPY go.mod ./
 COPY *.go ./
 RUN go mod download
+RUN ls
 RUN go build -o ./nfc-elasticsearch
 
 
