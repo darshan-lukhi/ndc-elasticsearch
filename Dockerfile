@@ -1,9 +1,8 @@
 FROM golang:1.21-alpine AS build
 WORKDIR /app
 COPY . .
-RUN go mod download
-RUN ls
-RUN go build -o ./nfc-elasticsearch
+RUN go mod tidy
+RUN go build -o nfc-elasticsearch
 
 
 FROM scratch
