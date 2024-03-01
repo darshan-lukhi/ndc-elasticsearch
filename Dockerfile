@@ -3,14 +3,15 @@ WORKDIR /app
 COPY . .
 RUN go mod tidy
 RUN go build -o nfc-elasticsearch
-
+RUN mkdir -p /etc/connector
 
 FROM scratch
 WORKDIR /app
 COPY --from=build /app/nfc-elasticsearch ./nfc-elasticsearch
-
+COPY --from=build /etc/connector /etc/connector
 COPY data /data
-RUN mkdir -p /etc/connector
+
+
 ENV HASURA_CONFIGURATION_DIRECTORY=/etc/connector
 
 EXPOSE 8080
