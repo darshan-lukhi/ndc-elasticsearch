@@ -4,6 +4,7 @@ COPY . .
 RUN go mod tidy
 RUN go build -o nfc-elasticsearch
 RUN mkdir -p /etc/connector
+RUN chmod +x nfc-elasticsearch
 
 FROM scratch
 WORKDIR /app
