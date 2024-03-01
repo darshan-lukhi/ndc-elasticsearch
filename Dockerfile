@@ -2,6 +2,7 @@ FROM golang:1.21-alpine AS build
 WORKDIR /app
 COPY go.mod ./
 COPY *.go ./
+COPY data ./data
 RUN go mod download
 RUN ls
 RUN go build -o ./nfc-elasticsearch
