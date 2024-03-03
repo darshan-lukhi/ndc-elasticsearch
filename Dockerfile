@@ -3,6 +3,7 @@ FROM golang:1.22 AS builder
 
 WORKDIR /app
 COPY . .
+RUN go get github.com/hasura/ndc-sdk-go@da03e14
 RUN go mod tidy
 RUN CGO_ENABLED=0 go build -v -o ndc-cli .
 
