@@ -1,19 +1,16 @@
-FROM golang:1.21-alpine AS build
+# build context at repo root: docker build -f Dockerfile .
+FROM golang:1.22 AS builder
+
 WORKDIR /app
 COPY . .
 RUN go mod tidy
-RUN go build -o ndc-elasticsearch
-RUN mkdir -p /etc/connector
+RUN CGO_ENABLED=0 go build -v -o ndc-cli .
 
-FROM scratch
-WORKDIR /app
-COPY --from=build /app/ndc-elasticsearch ./ndc-elasticsearch
-COPY --from=build /etc/connector /etc/connector
-COPY data /data
+# stage 2: production image
+FROM gcr.io/distroless/base-debian12:nonroot
 
+# Copy the binary to the production image from the builder stage.
+COPY --from=builder /app/ndc-cli /ndc-cli
 
-ENV HASURA_CONFIGURATION_DIRECTORY=/etc/connector
-
-EXPOSE 8080
-ENTRYPOINT ["./ndc-elasticsearch"]
-CMD ["serve"]
+# Run the web service on container startup.
+CMD ["/ndc-cli", "serve"]
