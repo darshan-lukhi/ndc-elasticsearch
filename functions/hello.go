@@ -2,6 +2,7 @@ package functions
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/darshan-lukhi/ndc-elasticsearch/types"
 )
