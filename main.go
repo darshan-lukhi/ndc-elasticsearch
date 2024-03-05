@@ -1,12 +1,15 @@
 package main
 
-import "github.com/hasura/ndc-sdk-go/connector"
+import (
+	"github.com/darshan-lukhi/ndc-elasticsearch/types"
+	"github.com/hasura/ndc-sdk-go/connector"
+)
 
 func main() {
-	if err := connector.Start[Configuration, State](
+	if err := connector.Start[types.Configuration, types.State](
 		&Connector{},
-		connector.WithMetricsPrefix("ndc_ref"),
-		connector.WithDefaultServiceName("ndc_ref"),
+		connector.WithMetricsPrefix("ndc-elasticsearch"),
+		connector.WithDefaultServiceName("ndc-elasticsearch"),
 	); err != nil {
 		panic(err)
 	}
